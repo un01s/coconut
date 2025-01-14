@@ -57,7 +57,7 @@ fn eval(input: &String) {
 }
 
 #[test]
-fn comments() {
+fn test_comments() {
     assert_eq!(
         eval_str(&"// 2+2\n 1+1".to_string()).unwrap(),
         Some(2),
@@ -70,8 +70,11 @@ fn comments() {
     );
 }
 
-#[test]
-fn eval_expressions() {
+#[cfg(test)]
+mod main_tests {
+    use super::*;
+    #[test]
+    fn math_expressions() {
     assert_eq!(
         eval_str(&"0+1*1*1".to_string()).unwrap(),
         Some(1),
@@ -87,4 +90,32 @@ fn eval_expressions() {
         Some(3),
         "expected 1*(1+2)=3"
     );
+    }
+}
+
+#[cfg(test)]
+mod var_tests {
+    use super::*;
+    #[test]
+    fn vars_declare_match() {
+        assert_eq!(
+            eval_str(&"let x = 1; let y = 2; y + x;".to_string()).unwrap(),
+            Some(3)
+        );
+    }
+    #[test]
+    fn vars_reassign_math() {
+        assert_eq!(
+            eval_str(&"let x = 1; let y = 2; x = 3; x + y;".to_string()).unwrap(),
+            Some(5)
+        );
+    }
+
+    #[test]
+    fn vars_undeclared_variable() {
+        assert_eq!(
+            eval_str(&"a + 1;".to_string()),
+            Err("Variable 'a' not found".to_string())
+        );
+    }
 }

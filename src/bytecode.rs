@@ -1,15 +1,27 @@
-use crate::ast::Node;
+use crate::{ast::Node, scope::Scope};
 
 #[derive(Debug, PartialEq, Clone)]
-pub enum Op {
+pub enum BinaryOp {
     Add, // addition operation
     Mul, // multiplication operation
+    Assign { name: String },
+    Declare { name: String },
     Push { value: u64 }, // load numeric value onto stack
 }
 
-pub fn eval(ast: Vec<Node>) -> Option<u64> {
-    let ops = &mut vec![];
+#[derive(Debug, PartialEq, Clone)]
+pub enum Op {
+    Add,                 // Addition operation
+    Mul,                 // Multiplication operation
+    Push { value: u64 }, // Load numeric value onto stack
+    Assign { name: String },
+    Declare { name: String },
+    PrintLn,
+    Load { id: String },
+}
 
+pub fn eval(ast: Vec<Node>, scope: &mut Scope) -> Result<Option<u64>, String> {
+    let ops = &mut vec![];
     for a in ast {
         ast_to_bytecode(a, ops);
     }
@@ -28,9 +40,27 @@ pub fn eval(ast: Vec<Node>) -> Option<u64> {
                 let lhs = stack.pop().unwrap();
                 stack.push(lhs * rhs);
             }
+            Op::Assign { name } => {
+                let val = stack.pop().unwrap();
+                scope.set_var(name.clone(), val);
+            }
+            Op::Declare { name } => {
+                let val = stack.pop().unwrap();
+                scope.dec_var(name.clone(), val);
+            }
+            Op::PrintLn => {
+                println!("{}", stack.pop().unwrap());
+            }
+            Op::Load { id } => {
+                if let Some(value) = scope.get_var(id.clone()) {
+                    stack.push(value.clone());
+                } else {
+                    return Err(format!("Variable '{}' not found", id.clone()));
+                }
+            }
         }
     }
-    return stack.pop();
+    return Ok(stack.pop());
 }
 
 pub fn ast_to_bytecode(node: Node, ops: &mut Vec<Op>) {
@@ -46,5 +76,21 @@ pub fn ast_to_bytecode(node: Node, ops: &mut Vec<Op>) {
             ops.push(Op::Mul {})
         }
         Node::Number { value } => ops.push(Op::Push { value }),
+        Node::Declare { id, rhs } => {
+            if let Some(val) = rhs {
+                ast_to_bytecode(*val, ops);
+            }
+            ops.push(Op::Declare { name: id.clone() });
+        }
+        Node::Assign { id, rhs } => {
+            ast_to_bytecode(*rhs, ops);
+            ops.push(Op::Declare { name: id.clone() });
+        }
+        Node::Id { value } => ops.push(Op::Load { id: value }),
+        Node::PrintLn { rhs } => {
+            ast_to_bytecode(*rhs, ops);
+            ops.push(Op::PrintLn {})
+        }
+        Node::Empty {} => {}
     }
 }

@@ -91,7 +91,7 @@ $ cargo -q run '2+2'
 
 ## 4. add repl and file support
 
-Code is restructured to add REPL. ```src/instruction.rs``` is changed to ```src/bytecode.rs```. A new file ```src/parser.rs``` is added. Another ```src/lib.rs``` is added too.
+Code is restructured to add REPL. ```src/instruction.rs``` is changed to ```src/bytecode.rs```. A new file ```src/parser.rs``` is added. Another ```src/lib.rs``` is added too. Check out the refactored ```src/main.rs```.
 
 ```
 $ cargo run
@@ -108,6 +108,21 @@ $ cargo run ./prog/math.cnt
 ```
 
 There is a new line in lexer, ```coconut.l``` to handle one-line comment.
+
+## 5. add variables and built-ins for interpreter
+
+For lexer, a few new lines are added to ```src/coconut.l```. So it could handle the statement termination token ```;```, the assignment ```=```, and variable declaration token ```let```. Identifier and a built-in function ```PRINT_LN```.
+
+For parser, it starts with statement list because with ```;``` multiple statements are allowed and must be parsed accordingly. Check out the new ```src/coconut.y```.
+
+For the AST node enum, a few things are added to ```src/ast.rs```.
+
+For evaluation, add ```src/scope.rs``` to handle scope, variables with HashMap.
+
+In ```src/bytecode.rs```, new code is added to handle ```let```, ```;```, ```=```, and other new stuff.
+
+Add scope handling in ```src/lib.rs```.
+
 
 ## reference
 

@@ -26,3 +26,5 @@ Before running the second command to build the code, there are several things to
 
 * [writing interpreter in Rust by Pavel Durov](https://p3ld3v.medium.com/writing-interpreter-in-rust-using-grmtools-7a6a0458b99f)
 
+* [grmtools quickstart](https://softdevteam.github.io/grmtools/master/book/quickstart.html)
+

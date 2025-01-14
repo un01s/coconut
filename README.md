@@ -89,6 +89,26 @@ $ cargo -q run '2+2'
 4
 ```
 
+## 4. add repl and file support
+
+Code is restructured to add REPL. ```src/instruction.rs``` is changed to ```src/bytecode.rs```. A new file ```src/parser.rs``` is added. Another ```src/lib.rs``` is added too.
+
+```
+$ cargo run
+Writing Interpreter With Rust [Part 4]
+> 2+2*3
+8
+> exit
+$ cargo test
+running 2 tests
+test comments ... ok
+test eval_expressions ... ok
+$ cargo run ./prog/math.cnt
+4 
+```
+
+There is a new line in lexer, ```coconut.l``` to handle one-line comment.
+
 ## reference
 
 * [writing interpreter in Rust by Pavel Durov](https://p3ld3v.medium.com/writing-interpreter-in-rust-using-grmtools-7a6a0458b99f)

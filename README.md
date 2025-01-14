@@ -22,6 +22,23 @@ Before running the second command to build the code, there are several things to
 
 * fill in the ```src/main.rs``` to pack everything together.
 
+## add AST
+
+There are several changes as follows:
+
+* add ```src/ast.rs```
+
+* modify ```src/cocunut.y``` so that the parser won't execute the operations there. Instead it returns AST nodes as a vector of type ```Vector<ast::Node>```. So there is no parse-time evaluation now.
+
+* add ```mod ast;``` in ```src/main.rs```
+
+```
+$ cargo -q run '2+2'
+[Add { lhs: Number { value: 2 }, rhs: Number { value: 2 } }]
+$ cargo -q run '2+2*2'
+[Add { lhs: Number { value: 2 }, rhs: Mul { lhs: Number { value: 2 }, rhs: Number { value: 2 } } }]
+```
+
 ## reference
 
 * [writing interpreter in Rust by Pavel Durov](https://p3ld3v.medium.com/writing-interpreter-in-rust-using-grmtools-7a6a0458b99f)

@@ -3,6 +3,8 @@ use std::env;
 use lrlex::lrlex_mod;
 use lrpar::lrpar_mod;
 
+mod ast;
+
 lrlex_mod!("coconut.l"); // brings the lexer for `coconut.l` into scope.
 lrpar_mod!("coconut.y"); // brings the Parser for `coconut.y` into scope.
 

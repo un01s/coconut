@@ -50,6 +50,18 @@ $ cargo -q run '(2+3)*2'
 10
 ```
 
+* restructure the ```src/main.rs``` to have a new function ```from_str()``` and add simple test
+
+```
+$ cargo -q run '2+2'
+4
+$ cargo test
+running 1 test
+test eval_expressions ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+```
+
 ## reference
 
 * [writing interpreter in Rust by Pavel Durov](https://p3ld3v.medium.com/writing-interpreter-in-rust-using-grmtools-7a6a0458b99f)

@@ -39,6 +39,13 @@ $ cargo -q run '2+2*2'
 [Add { lhs: Number { value: 2 }, rhs: Mul { lhs: Number { value: 2 }, rhs: Number { value: 2 } } }]
 ```
 
+* add ast-time evaluation: add two functions ```eval()``` and ```eval_exp()``` in ```src/main.rs```
+
+```
+$ cargo -q run '2+2'
+4
+```
+
 ## reference
 
 * [writing interpreter in Rust by Pavel Durov](https://p3ld3v.medium.com/writing-interpreter-in-rust-using-grmtools-7a6a0458b99f)

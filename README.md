@@ -44,6 +44,10 @@ $ cargo -q run '2+2*2'
 ```
 $ cargo -q run '2+2'
 4
+$ cargo -q run '2+2*3' 
+8
+$ cargo -q run '(2+3)*2'
+10
 ```
 
 ## reference

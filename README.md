@@ -132,3 +132,5 @@ Add scope handling in ```src/lib.rs```.
 
 * [grmtools quickstart](https://softdevteam.github.io/grmtools/master/book/quickstart.html)
 
+* [blog code by Pavel Durov](https://github.com/Pavel-Durov/blog)
+
